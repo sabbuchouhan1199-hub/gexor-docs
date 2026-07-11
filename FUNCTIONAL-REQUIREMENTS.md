@@ -6,7 +6,7 @@
 **Document Type:** Functional Requirements Specification
 **Product:** Gexor — AI Runtime Platform
 **Product Stage:** Pre-development
-**Status:** Initial Baseline
+**Status:** Complete — Pending Baseline Approval
 **Source Document:** `PRD.md`
 **Primary Release:** MVP
 
@@ -22,7 +22,7 @@
 | Requirement baseline    | MVP                                                                                     |
 | Change authority        | Founder / Product Owner                                                                 |
 | Implementation status   | Not started                                                                             |
-| Approval status         | Pending                                                                                 |
+| Approval status         | Pending Product Owner baseline approval                                                 |
 
 ---
 
@@ -31,32 +31,25 @@
 1. Document Purpose
 2. Requirement Conventions
 3. Product Actors and Roles
-4. Identity and Authentication Requirements
-5. Organization Requirements
-6. Workspace Requirements
-7. Project Requirements
-8. Conversation Requirements
-9. Message Requirements
-10. Runtime Execution Requirements
-11. Context Engine Requirements
-12. Memory Engine Requirements
-13. Knowledge Requirements
-14. Prompt Construction Requirements
-15. AI Provider Connection and Routing Requirements
-16. Streaming Requirements
-17. File Processing Requirements
-18. Search and Retrieval Requirements
-19. Agent Requirements
-20. Integration Requirements
-21. Usage and Billing Requirements
-22. Notification Requirements
-23. Administration Requirements
-24. Audit and Governance Requirements
-25. Export, Backup, and Deletion Requirements
-26. Error and Recovery Requirements
-27. Background Processing Requirements
-28. MVP Acceptance Criteria
-29. Requirement Traceability
+4. Functional Requirement Register Introduction
+5. Identity and Authentication Requirements
+6. Organization and Workspace Requirements
+7. Project and Conversation Requirements
+8. Message Requirements
+9. Runtime Execution Requirements
+10. Context, Memory, and Knowledge Requirements
+11. AI Provider Connection and Routing Requirements
+12. Streaming, File Processing, and Search Requirements
+13. Usage, Billing, Notification, and Administration Requirements
+14. Additional MVP Functional Requirements
+15. Requirement Register Completion Status
+16. MVP Acceptance Criteria
+17. Requirement Traceability Matrix
+18. Cross-Requirement Dependency Register
+19. Functional Error Catalogue
+20. Requirement Priority Register
+21. Document Change History
+22. Approval and Baseline Status
 
 ---
 
@@ -126,7 +119,7 @@ The MVP functional requirements shall support the following objectives:
 3. Allow supported AI-provider credentials to be connected and managed.
 4. Provide a familiar conversational interface.
 5. Enhance eligible user prompts without changing the user’s intended objective.
-6. maintain structured long-term memory.
+6. Maintain structured long-term memory.
 7. Retrieve only relevant and permitted memory.
 8. Preserve continuity across conversations and supported providers.
 9. Support user-controlled memory inspection and correction.
@@ -815,19 +808,25 @@ The system shall apply these principles:
 
 ---
 
-# 4. Functional Requirement Register Status
+# 4. Functional Requirement Register Introduction
 
-The formal requirement register begins in Section 4.
+The formal requirement register begins in Section 5.
 
-Current document status:
+The requirement domains defined by this specification are consolidated where related behaviours share actors, state, permission boundaries, or execution flows. Consolidation shall not reduce the authority, uniqueness, testability, or traceability of any individual requirement.
 
-| Section                                  | Status  |
-| ---------------------------------------- | ------- |
-| Document Purpose                         | Drafted |
-| Requirement Conventions                  | Drafted |
-| Product Actors and Roles                 | Drafted |
-| Identity and Authentication Requirements | Next    |
-| Remaining functional domains             | Pending |
+| Requirement Group | Section | Status |
+| --- | ---: | --- |
+| Identity and Authentication | 5 | Complete |
+| Organization and Workspace | 6 | Complete |
+| Project and Conversation | 7 | Complete |
+| Message | 8 | Complete |
+| Runtime Execution | 9 | Complete |
+| Context, Memory, and Knowledge | 10 and 14.1 | Complete |
+| AI Provider Connection and Routing | 11 | Complete |
+| Streaming, File Processing, and Search | 12 | Complete |
+| Usage, Billing, Notification, and Administration | 13 and 14.2 | Complete |
+| Background Processing | 14.3 | Complete |
+| Final acceptance and governance registers | 15–22 | Complete |
 
 # 5. Identity and Authentication Requirements
 
@@ -2935,7 +2934,7 @@ Retrieved content shall not be treated as higher-authority instruction unless ex
 
 ---
 
-# 10. Context and Memory Engine Requirements
+# 10. Context and Memory Requirements
 
 ## 10.1 Memory Model
 
@@ -4346,7 +4345,7 @@ The policy shall not merge files across workspaces.
 
 ---
 
-# 13. Usage, Billing, and Administration Requirements
+# 13. Usage, Billing, Notification, and Administration Requirements
 
 ## 13.1 Token Counting
 
@@ -5043,34 +5042,730 @@ The policy shall not merge files across workspaces.
 
 ---
 
-# 14. Requirement Register Completion Status
+---
 
-| Requirement Domain                     |                                Identifier Range | Status  |
-| -------------------------------------- | ----------------------------------------------: | ------- |
-| Identity and Authentication            |                 FR-AUTH-001 through FR-AUTH-035 | Drafted |
-| Organization and Workspace             |       FR-WORKSPACE-001 through FR-WORKSPACE-034 | Drafted |
-| Project and Conversation               | FR-CONVERSATION-001 through FR-CONVERSATION-030 | Drafted |
-| Message                                |                   FR-MSG-001 through FR-MSG-034 | Drafted |
-| Runtime Execution                      |           FR-RUNTIME-001 through FR-RUNTIME-045 | Drafted |
-| Context and Memory Engine              |             FR-MEMORY-001 through FR-MEMORY-045 | Drafted |
-| AI Provider Connection and Routing     |         FR-PROVIDER-001 through FR-PROVIDER-039 | Drafted |
-| Streaming, File Processing, and Search |             FR-STREAM-001 through FR-STREAM-059 | Drafted |
-| Usage, Billing, and Administration     |               FR-ADMIN-001 through FR-ADMIN-075 | Drafted |
+# 14. Additional MVP Functional Requirements
+
+## 14.1 Knowledge Requirements
+
+### FR-KNOWLEDGE-001 — Knowledge Record
+
+**Statement:** The system shall represent retained knowledge as a structured or indexed record associated with an authorized workspace and an identifiable source.
+
+**Required Metadata Shall Include, at Minimum:**
+
+* knowledge identifier;
+* workspace identifier;
+* source identifier and source type;
+* content or indexed-content reference;
+* lifecycle state;
+* processing version;
+* creation time;
+* update time;
+* retrieval eligibility.
 
 ---
 
-# 15. Baseline Review Rule
+### FR-KNOWLEDGE-002 — Knowledge Source Eligibility
 
-These requirement registers form the functional baseline for subsequent non-functional requirements, architecture, runtime-pipeline, domain-model, database, API, engine, security, UX, testing, deployment, and implementation documents.
+**Statement:** The system shall create knowledge records only from eligible user input, conversations, files, or other sources authorized by workspace policy.
 
-No implementation task shall be treated as approved solely because it is technically feasible.
+**Validation Rules:**
 
-Before implementation begins, each requirement shall be:
+* The source shall belong to the active workspace.
+* The source shall not be permanently deleted.
+* The actor or system process shall have processing permission.
+* Conversation memory-exclusion and file-processing restrictions shall be respected.
+* Ineligible source content shall not become retrievable knowledge.
 
-1. reviewed against the Product Requirements Document;
-2. assigned an approved MVP priority;
-3. checked for conflicts and duplication;
-4. mapped to one or more acceptance criteria;
-5. mapped to the responsible design document;
-6. assigned test coverage;
-7. approved through the established change-control process.
+---
+
+### FR-KNOWLEDGE-003 — Knowledge Extraction
+
+**Statement:** The Background Processing Worker shall extract eligible knowledge outside the critical response path where synchronous extraction is not required.
+
+**Core Behaviour:**
+
+* Extraction shall preserve source provenance.
+* Extracted content shall remain scoped to the source workspace.
+* Processing shall identify the extractor or processing version.
+* Partial extraction shall be explicitly identified.
+* Extraction failure shall not change the completed user-visible response state.
+
+---
+
+### FR-KNOWLEDGE-004 — Knowledge Deduplication
+
+**Statement:** Before activating newly extracted knowledge, the system shall evaluate materially equivalent active knowledge within the authorized scope.
+
+**Possible Outcomes Shall Include:**
+
+* create a new record;
+* update or version an existing record;
+* link an additional source;
+* reject a duplicate;
+* retain separate records where scope or meaning differs;
+* place the candidate into review when equivalence is uncertain.
+
+---
+
+### FR-KNOWLEDGE-005 — Knowledge Retrieval
+
+**Statement:** Runtime knowledge retrieval shall return only active, permitted, source-valid, and contextually relevant knowledge records.
+
+**Retrieval Rules:**
+
+* Workspace scope shall be mandatory.
+* Project and conversation scope shall be applied where relevant.
+* Deleted, expired, inactive, or unauthorized sources shall be excluded.
+* Result count and token limits shall be enforced.
+* Retrieved records shall be deduplicated before prompt construction.
+* Selected identifiers shall be preserved in the runtime execution record.
+
+---
+
+### FR-KNOWLEDGE-006 — Knowledge Provenance
+
+**Statement:** Each knowledge record shall preserve sufficient provenance to identify the source material and processing activity from which it was derived.
+
+**Provenance May Include:**
+
+* source conversation;
+* source message;
+* source file and segment;
+* explicit user entry;
+* extraction job;
+* processing version;
+* extraction actor;
+* extraction time.
+
+---
+
+### FR-KNOWLEDGE-007 — Knowledge Update and Reprocessing
+
+**Statement:** A material source update shall cause affected knowledge to be invalidated, versioned, or scheduled for reprocessing according to the approved source-change policy.
+
+**Atomicity Rules:**
+
+* The prior active representation shall remain identifiable.
+* A replacement shall not become active before mandatory validation completes.
+* Search and vector indexes shall correspond to the effective knowledge version.
+* Failed reprocessing shall result in a controlled pending, failed, or rollback state.
+
+---
+
+### FR-KNOWLEDGE-008 — Knowledge Deletion Reconciliation
+
+**Statement:** When a knowledge source is permanently deleted, the system shall delete, de-identify, invalidate, or re-evaluate knowledge derived from that source according to provenance and retention policy.
+
+**Restriction:** Deleted-source content shall not remain retrievable through stale keyword indexes, vector indexes, caches, summaries, or runtime snapshots created after deletion becomes effective.
+
+---
+
+### FR-KNOWLEDGE-009 — Knowledge Processing Idempotency
+
+**Statement:** Repeated processing of the same source version under the same processing purpose shall not create duplicate active knowledge, segments, embeddings, or index entries.
+
+---
+
+### FR-KNOWLEDGE-010 — Knowledge Audit Events
+
+**Statement:** The system shall audit security-significant knowledge activation, reprocessing, invalidation, restoration, and permanent deletion.
+
+---
+
+## 14.2 Notification Requirements
+
+### FR-NOTIFY-001 — Notification Creation
+
+**Statement:** The system shall create a notification only when an approved functional event and notification policy require or permit delivery.
+
+**Notification Metadata Shall Include, at Minimum:**
+
+* notification identifier;
+* recipient identity or authorized recipient scope;
+* event category;
+* delivery channel;
+* creation time;
+* delivery state;
+* related resource reference where permitted.
+
+---
+
+### FR-NOTIFY-002 — Notification Authorization
+
+**Statement:** Before delivery, the Notification Service shall verify that the intended recipient remains authorized to receive information about the related resource or event.
+
+**Restriction:** A notification shall not reveal the existence or content of an inaccessible workspace, conversation, memory, file, export, provider connection, or administrative record.
+
+---
+
+### FR-NOTIFY-003 — Notification Preference Enforcement
+
+**Statement:** The Notification Service shall apply effective user and workspace notification preferences except where a mandatory security, legal, billing, or destructive-action notice cannot be disabled.
+
+---
+
+### FR-NOTIFY-004 — Sensitive Content Minimization
+
+**Statement:** Notifications delivered through channels not approved for sensitive content shall contain only the minimum information necessary to communicate the event and a protected path to further details.
+
+**Notifications Shall Not Contain:**
+
+* passwords;
+* recovery tokens;
+* session credentials;
+* provider credentials;
+* complete private prompts;
+* complete memory content;
+* unrestricted export links;
+* another user’s protected information.
+
+---
+
+### FR-NOTIFY-005 — Notification Delivery State
+
+**Statement:** The system shall maintain an explicit delivery state for each notification attempt.
+
+**States Shall Include, at Minimum:**
+
+* pending;
+* sent;
+* delivered where confirmation is available;
+* failed;
+* suppressed;
+* expired.
+
+---
+
+### FR-NOTIFY-006 — Notification Retry
+
+**Statement:** Eligible transient notification failures shall be retried according to a bounded retry policy.
+
+**Retry Rules:**
+
+* Retries shall preserve the original recipient and authorization scope.
+* Permanent failures shall not be retried indefinitely.
+* Retry processing shall not create uncontrolled duplicate user-visible notifications.
+* A material delivery failure shall remain inspectable by authorized operational processes.
+
+---
+
+### FR-NOTIFY-007 — Notification Idempotency
+
+**Statement:** Notification creation and delivery shall support idempotency where repeated event processing could otherwise deliver duplicate security, billing, export, or deletion notices.
+
+---
+
+### FR-NOTIFY-008 — Notification Audit
+
+**Statement:** The system shall record delivery metadata for security-significant, billing-significant, export, restriction, and deletion notifications without recording prohibited secret content.
+
+---
+
+## 14.3 Background Processing Requirements
+
+### FR-BACKGROUND-001 — Background Job Creation
+
+**Statement:** The system shall create an explicit background-job record for each asynchronous processing activity that can affect persistent state, retrieval eligibility, usage reconciliation, notification delivery, export, or deletion.
+
+**Job Metadata Shall Include, at Minimum:**
+
+* job identifier;
+* job type;
+* workspace scope;
+* source or target reference;
+* creation time;
+* current state;
+* attempt count;
+* idempotency or deduplication reference where required;
+* correlation identifier.
+
+---
+
+### FR-BACKGROUND-002 — Background Job State Model
+
+**Statement:** The system shall maintain an explicit lifecycle state for every background job.
+
+**States Shall Include, at Minimum:**
+
+* queued;
+* running;
+* succeeded;
+* failed;
+* retry scheduled;
+* cancelled;
+* dead-lettered or equivalent terminal reconciliation state.
+
+---
+
+### FR-BACKGROUND-003 — Workspace Scope Validation
+
+**Statement:** A Background Processing Worker shall validate the immutable workspace scope and target eligibility before reading or modifying protected data.
+
+**Failure Behaviour:** A job with absent, invalid, conflicting, or unauthorized scope shall fail closed and shall not be reassigned to another workspace.
+
+---
+
+### FR-BACKGROUND-004 — Background Job Idempotency
+
+**Statement:** A retried or redelivered background job shall not create duplicate active memories, knowledge records, file segments, embeddings, usage records, exports, notifications, or deletion effects.
+
+---
+
+### FR-BACKGROUND-005 — Background Job Claiming
+
+**Statement:** The system shall prevent two workers from concurrently applying the same indivisible job effect unless the job type explicitly supports coordinated parallel processing.
+
+---
+
+### FR-BACKGROUND-006 — Retry Classification
+
+**Statement:** Background-processing failures shall be classified as retryable, non-retryable, cancelled, or requiring reconciliation.
+
+**Retry Rules:**
+
+* Retry delay and maximum attempts shall be bounded.
+* Non-retryable validation and permission failures shall not be retried automatically.
+* Retried jobs shall retain the original workspace and processing purpose.
+* Exhausted retries shall enter a controlled terminal state.
+
+---
+
+### FR-BACKGROUND-007 — Stale Job Detection
+
+**Statement:** A Scheduled System Process shall identify jobs that remain running or claimed beyond the configured processing lease or timeout.
+
+**Core Behaviour:**
+
+* The system shall determine whether the job can be safely retried.
+* An active valid worker lease shall not be overwritten.
+* Recovery shall not duplicate already committed effects.
+* Unrecoverable jobs shall be escalated to reconciliation.
+
+---
+
+### FR-BACKGROUND-008 — Job Cancellation
+
+**Statement:** The system shall support cancellation or invalidation of eligible queued or running background jobs when their source is deleted, their workspace becomes ineligible, or an authorized operation requires cancellation.
+
+**Restriction:** Cancellation shall not roll back a committed effect unless the applicable domain defines a compensating action.
+
+---
+
+### FR-BACKGROUND-009 — Source Snapshot
+
+**Statement:** Each background job shall process an identifiable source version or immutable source snapshot sufficient to prevent an older job from overwriting a newer committed state.
+
+---
+
+### FR-BACKGROUND-010 — Late Result Rejection
+
+**Statement:** The system shall reject or quarantine a background result when its source, workspace, target version, deletion state, or authorization condition no longer permits application.
+
+---
+
+### FR-BACKGROUND-011 — Background Failure Isolation
+
+**Statement:** Failure or backlog in one background-job type or workspace shall not block unrelated synchronous chat execution except where a mandatory safety, deletion, quota, or integrity dependency requires blocking.
+
+---
+
+### FR-BACKGROUND-012 — Background Processing Audit
+
+**Statement:** The system shall retain operationally sufficient job history for security-significant, billing-significant, export, deletion, memory, and knowledge processing.
+
+**Audit Metadata Shall Exclude:** provider credentials, authentication secrets, and unnecessary complete user content.
+
+---
+
+# 15. Requirement Register Completion Status
+
+| Requirement Domain | Identifier Range | Requirement Count | Status |
+| --- | ---: | ---: | --- |
+| Identity and Authentication | FR-AUTH-001 through FR-AUTH-035 | 35 | Complete |
+| Organization and Workspace | FR-WORKSPACE-001 through FR-WORKSPACE-034 | 34 | Complete |
+| Project and Conversation | FR-CONVERSATION-001 through FR-CONVERSATION-030 | 30 | Complete |
+| Message | FR-MSG-001 through FR-MSG-034 | 34 | Complete |
+| Runtime Execution | FR-RUNTIME-001 through FR-RUNTIME-045 | 45 | Complete |
+| Context and Memory | FR-MEMORY-001 through FR-MEMORY-045 | 45 | Complete |
+| AI Provider Connection and Routing | FR-PROVIDER-001 through FR-PROVIDER-039 | 39 | Complete |
+| Streaming, File Processing, and Search | FR-STREAM-001 through FR-STREAM-059 | 59 | Complete |
+| Usage, Billing, and Administration | FR-ADMIN-001 through FR-ADMIN-075 | 75 | Complete |
+| Knowledge | FR-KNOWLEDGE-001 through FR-KNOWLEDGE-010 | 10 | Complete |
+| Notification | FR-NOTIFY-001 through FR-NOTIFY-008 | 8 | Complete |
+| Background Processing | FR-BACKGROUND-001 through FR-BACKGROUND-012 | 12 | Complete |
+| **Total** |  | **426** | **Complete** |
+
+No requirement identifier shall be reused. Any future requirement shall continue from the next sequential identifier in its domain.
+
+---
+
+# 16. MVP Acceptance Criteria
+
+## 16.1 Baseline Acceptance Rule
+
+The Gexor MVP shall not be accepted for general release unless every **MVP Critical** requirement is verified and every **MVP Required** requirement is either verified or covered by a formally approved release exception.
+
+## 16.2 Functional Acceptance Criteria
+
+### AC-MVP-001 — Account and Workspace Readiness
+
+The MVP shall demonstrate that an eligible Visitor can create an account, complete required verification, authenticate, receive exactly one personal workspace, and retrieve that workspace without duplicate provisioning.
+
+**Mapped Requirements:** FR-AUTH-001 through FR-AUTH-025; FR-WORKSPACE-004 through FR-WORKSPACE-015.
+
+### AC-MVP-002 — Workspace Isolation
+
+The MVP shall demonstrate that users, queries, caches, jobs, files, indexes, exports, provider connections, and runtime executions cannot access another workspace’s protected data without explicit authorization.
+
+**Mapped Requirements:** FR-WORKSPACE-003; FR-WORKSPACE-014 through FR-WORKSPACE-030; FR-MEMORY-002; FR-MEMORY-017; FR-STREAM-002; FR-STREAM-015; FR-STREAM-033; FR-STREAM-041; FR-STREAM-048; FR-BACKGROUND-003.
+
+### AC-MVP-003 — Provider Connection
+
+The MVP shall demonstrate protected provider-credential submission, validation, masked display, replacement, disabling, disconnection, and deletion without plaintext credential exposure.
+
+**Mapped Requirements:** FR-AUTH-026 through FR-AUTH-034; FR-PROVIDER-001 through FR-PROVIDER-011.
+
+### AC-MVP-004 — Conversational Execution
+
+The MVP shall demonstrate conversation creation, idempotent message acceptance, runtime execution, provider dispatch, streamed response delivery, durable assistant-message finalization, cancellation, retry, and stable failure reporting.
+
+**Mapped Requirements:** FR-CONVERSATION-007 through FR-CONVERSATION-030; FR-MSG-001 through FR-MSG-034; FR-RUNTIME-001 through FR-RUNTIME-045; FR-STREAM-001 through FR-STREAM-015.
+
+### AC-MVP-005 — Context and Prompt Control
+
+The MVP shall demonstrate deterministic instruction precedence, context-budget enforcement, context deduplication, user-intent preservation, provider-limit compliance, and traceability of selected context.
+
+**Mapped Requirements:** FR-RUNTIME-017 through FR-RUNTIME-028; FR-MSG-028; FR-MEMORY-016 through FR-MEMORY-026; FR-KNOWLEDGE-005.
+
+### AC-MVP-006 — Structured Memory
+
+The MVP shall demonstrate candidate extraction, confirmation, rejection, activation, deactivation, retrieval, inspection, update, conflict handling, soft deletion, restoration, permanent deletion, and provenance reconciliation.
+
+**Mapped Requirements:** FR-MEMORY-001 through FR-MEMORY-045.
+
+### AC-MVP-007 — Rapid-Fire Message Responsiveness
+
+The MVP shall demonstrate that Message B is not blocked by unfinished memory or knowledge processing for Message A, that Message B uses the committed context snapshot available when its execution begins, and that later committed memory becomes eligible only for subsequent executions.
+
+**Mapped Requirements:** FR-RUNTIME-042 through FR-RUNTIME-044; FR-BACKGROUND-009; FR-BACKGROUND-010.
+
+### AC-MVP-008 — File Processing and Retrieval
+
+The MVP shall demonstrate authorized PDF and TXT upload, trusted type detection, bounded parsing, segmentation, indexing, search, runtime injection, provenance recording, and complete deletion of derived representations.
+
+**Mapped Requirements:** FR-STREAM-016 through FR-STREAM-059.
+
+### AC-MVP-009 — Knowledge Lifecycle
+
+The MVP shall demonstrate source-authorized knowledge extraction, deduplication, retrieval, provenance, reprocessing, source-deletion reconciliation, and idempotent processing.
+
+**Mapped Requirements:** FR-KNOWLEDGE-001 through FR-KNOWLEDGE-010.
+
+### AC-MVP-010 — Usage and Cost Visibility
+
+The MVP shall demonstrate input, output, and total-token recording; cost estimation; pricing-version association; failed and cancelled usage recording; aggregation; and authorized inspection.
+
+**Mapped Requirements:** FR-RUNTIME-029 through FR-RUNTIME-035; FR-ADMIN-001 through FR-ADMIN-015.
+
+### AC-MVP-011 — Spending and Quota Enforcement
+
+The MVP shall demonstrate soft-warning behaviour, hard-ceiling blocking, concurrent budget reservation, quota validation, rate limiting, and stable user-safe errors.
+
+**Mapped Requirements:** FR-ADMIN-016 through FR-ADMIN-029.
+
+### AC-MVP-012 — Export and Deletion
+
+The MVP shall demonstrate authorized export generation, scope integrity, secret exclusion, time-limited download, expiration, account and workspace deletion, derived-data deletion, backup-restoration deletion replay, idempotency, and failure reconciliation.
+
+**Mapped Requirements:** FR-ADMIN-047 through FR-ADMIN-070.
+
+### AC-MVP-013 — Administrative Control
+
+The MVP shall demonstrate elevated administrator authentication, least-privilege authorization, restricted support access, immutable audit records, provider-state administration, and privacy-preserving administrative operations.
+
+**Mapped Requirements:** FR-ADMIN-030 through FR-ADMIN-046; FR-ADMIN-071 through FR-ADMIN-075.
+
+### AC-MVP-014 — Notification Delivery
+
+The MVP shall demonstrate authorized, preference-aware, privacy-minimized, idempotent notification delivery for security, usage, export, restriction, and deletion events.
+
+**Mapped Requirements:** FR-NOTIFY-001 through FR-NOTIFY-008; FR-ADMIN-025; FR-ADMIN-070; FR-ADMIN-075.
+
+### AC-MVP-015 — Background Processing Recovery
+
+The MVP shall demonstrate explicit job states, workspace-scope validation, deduplication, bounded retries, stale-job recovery, cancellation, late-result rejection, and failure isolation.
+
+**Mapped Requirements:** FR-BACKGROUND-001 through FR-BACKGROUND-012.
+
+### AC-MVP-016 — Audit and Error Safety
+
+The MVP shall demonstrate stable error categories, privacy-preserving user messages, correlation identifiers, secret exclusion, and auditable security-significant and destructive actions.
+
+**Mapped Requirements:** Section 2.12; Section 2.13; FR-AUTH-035; FR-CONVERSATION-030; FR-MSG-030; FR-MSG-034; FR-RUNTIME-005; FR-RUNTIME-045; FR-PROVIDER-035 through FR-PROVIDER-039; FR-STREAM-059; FR-ADMIN-038 through FR-ADMIN-046; FR-ADMIN-071 through FR-ADMIN-075.
+
+---
+
+# 17. Requirement Traceability Matrix
+
+## 17.1 Domain-to-PRD Traceability
+
+| Functional Domain | Functional Requirement Range | Relevant PRD Areas | Product Intent |
+| --- | --- | --- | --- |
+| Identity and Authentication | FR-AUTH-001–035 | Section 1 Product Foundation; Section 3 MVP Scope; Section 4 Product Experience; Section 6 Constraints and Risks; Section 8 Governance | Secure account access, session control, provider-secret protection |
+| Organization and Workspace | FR-WORKSPACE-001–034 | Sections 1, 2, 3, 4, 6, and 8 | Personal workspace provisioning, ownership, isolation, portability |
+| Project and Conversation | FR-CONVERSATION-001–030 | Sections 2, 3, and 4 | Persistent project organization and conversation continuity |
+| Message | FR-MSG-001–034 | Sections 3 and 4 | Familiar chat, durable messages, streaming states, retry and cancellation |
+| Runtime Execution | FR-RUNTIME-001–045 | Sections 1, 3, 4, and 6 | Controlled runtime pipeline, prompt construction, token optimization, responsiveness |
+| Context and Memory | FR-MEMORY-001–045 | Sections 1, 2, 3, 4, and 6 | Structured, relevant, inspectable, user-controlled memory |
+| Provider Connection and Routing | FR-PROVIDER-001–039 | Sections 1, 3, 4, 5, and 6 | BYOK, provider independence, model selection, fallback, cost-aware routing |
+| Streaming, Files, and Search | FR-STREAM-001–059 | Sections 3 and 4; Section 6 constraints | Immediate response delivery, supported file context, scoped retrieval |
+| Usage, Billing, and Administration | FR-ADMIN-001–075 | Sections 3, 4, 5, 6, 7, and 8 | Cost visibility, usage limits, operational control, export, deletion, governance |
+| Knowledge | FR-KNOWLEDGE-001–010 | Sections 1, 3, and 4 | Knowledge extraction, indexing, retrieval, provenance, source reconciliation |
+| Notification | FR-NOTIFY-001–008 | Sections 4, 6, and 7 | Security, usage, export, deletion, and operational communication |
+| Background Processing | FR-BACKGROUND-001–012 | Sections 1, 3, 4, and 6 | Non-blocking extraction, reconciliation, retry, cleanup, lifecycle enforcement |
+
+## 17.2 Traceability Rules
+
+1. Every implementation task shall reference at least one functional requirement identifier.
+2. Every test case shall reference each requirement behaviour it verifies.
+3. Every requirement shall map to at least one PRD area and one acceptance criterion.
+4. A requirement without a valid PRD or approved governance source shall remain unapproved.
+5. A PRD capability without functional coverage shall be recorded as a functional gap before baseline approval.
+6. Traceability shall be maintained bidirectionally from PRD to test and from test to PRD.
+
+---
+
+# 18. Cross-Requirement Dependency Register
+
+| Dependency ID | Source Requirement or Domain | Depends On | Dependency Rule |
+| --- | --- | --- | --- |
+| DEP-001 | FR-AUTH-001–004 | FR-WORKSPACE-004–006 | Account activation and personal-workspace provisioning shall form one recoverable initialization flow. |
+| DEP-002 | All workspace-scoped requirements | FR-AUTH-019–024; FR-WORKSPACE-014–019 | Protected operations require a valid session and authorized workspace scope. |
+| DEP-003 | FR-MSG-001–005 | FR-CONVERSATION-007–019; FR-RUNTIME-001–003 | Message acceptance requires an eligible conversation and creation of a traceable runtime execution. |
+| DEP-004 | FR-RUNTIME-004–028 | FR-MEMORY-016–026; FR-KNOWLEDGE-005; FR-STREAM-032–055 | Prompt construction depends on authorized, bounded, and provenance-preserving context retrieval. |
+| DEP-005 | FR-RUNTIME-029–036 | FR-PROVIDER-012–025; FR-ADMIN-001–024 | Provider dispatch depends on model metadata, pricing, quota, and spending validation. |
+| DEP-006 | FR-RUNTIME-036–045 | FR-PROVIDER-026–039; FR-STREAM-001–015 | Execution completion depends on provider error normalization and valid stream finalization. |
+| DEP-007 | FR-RUNTIME-043 | FR-MEMORY-005–011; FR-KNOWLEDGE-003; FR-BACKGROUND-009–010 | Snapshot Lock requires exclusion of uncommitted background results from the active execution. |
+| DEP-008 | FR-MEMORY-005–011 | FR-BACKGROUND-001–012 | Memory extraction requires scoped, idempotent, recoverable background processing. |
+| DEP-009 | FR-KNOWLEDGE-003–009 | FR-STREAM-024–055; FR-BACKGROUND-001–012 | Knowledge processing depends on valid source parsing, indexing, and background-job controls. |
+| DEP-010 | FR-STREAM-016–038 | FR-WORKSPACE-025; FR-ADMIN-026–029 | File processing depends on isolated storage, quota, and rate controls. |
+| DEP-011 | FR-STREAM-039–055 | FR-WORKSPACE-021–022; FR-MEMORY-038–039; FR-KNOWLEDGE-008 | Search depends on workspace-scoped indexes and timely deletion or invalidation. |
+| DEP-012 | FR-ADMIN-016–024 | FR-RUNTIME-029–035 | Spending enforcement depends on reliable cost estimation, reservation, and reconciliation. |
+| DEP-013 | FR-ADMIN-047–057 | FR-WORKSPACE-029; FR-BACKGROUND-001–012; FR-NOTIFY-001–008 | Export requires scope integrity, asynchronous generation, and controlled readiness notification. |
+| DEP-014 | FR-ADMIN-058–070 | All deletion-bearing domains; FR-BACKGROUND-001–012 | Account and workspace deletion depends on domain-specific deletion and reconciliation. |
+| DEP-015 | FR-NOTIFY-001–008 | FR-AUTH-019–024; FR-WORKSPACE-014–019 | Notification delivery depends on current recipient authorization and privacy controls. |
+| DEP-016 | FR-ADMIN-038–046 | Section 2.12 and all audit-bearing requirements | Audit completeness depends on consistent event generation and secret exclusion. |
+
+---
+
+# 19. Functional Error Catalogue
+
+| Error Code | Category | Trigger | Required System Behaviour | Retry Classification |
+| --- | --- | --- | --- | --- |
+| ERR-AUTH-001 | Authentication | Invalid, expired, revoked, or absent authentication | Deny protected operation without revealing account existence or secret details | Retry after valid authentication |
+| ERR-AUTHZ-001 | Authorization | Actor lacks required role, membership, ownership, or permission | Deny; do not expose inaccessible resource existence where privacy requires | Non-retryable until authorization changes |
+| ERR-VALIDATION-001 | Validation | Required, format, size, state, or supported-value validation fails | Reject before durable mutation or provider execution | Retry after corrected input |
+| ERR-NOTFOUND-001 | Resource not found | Authorized lookup finds no eligible resource | Return privacy-preserving not-found response | Non-retryable unless identifier changes |
+| ERR-CONFLICT-001 | Resource conflict | Idempotency-key conflict, duplicate state, version conflict, or invalid transition | Preserve existing valid state and return stable conflict response | Retry only after reconciliation or new key/version |
+| ERR-QUOTA-001 | Quota | Applicable request, token, storage, or processing quota exhausted | Block controlled operation and expose permitted quota guidance | Retry after reset or quota change |
+| ERR-RATE-001 | Rate limit | Configured request-rate threshold exceeded | Reject with stable category and safe retry time where available | Retry after indicated interval |
+| ERR-COST-001 | Spending limit | Estimated or reserved cost exceeds a hard ceiling | Block provider dispatch; do not bypass via fallback | Retry after budget or policy change |
+| ERR-PROVIDER-001 | Invalid provider credential | Provider rejects workspace credential | Mark connection invalid or action required; protect credential value | Retry after credential replacement |
+| ERR-PROVIDER-002 | Provider rate limit | Provider returns rate-limit response | Normalize error; apply bounded retry or permitted fallback | Conditionally retryable |
+| ERR-PROVIDER-003 | Provider unavailable | Provider or model is unavailable | Apply approved fallback or fail safely | Conditionally retryable |
+| ERR-PROVIDER-004 | Provider request rejected | Provider rejects request format, context, policy, or capability | Normalize; do not expose unsafe provider details | Retry after request or model correction |
+| ERR-TIMEOUT-001 | Connection timeout | Provider connection not established in time | Fail or fallback according to policy | Conditionally retryable |
+| ERR-TIMEOUT-002 | First-event timeout | No valid first stream event within bound | Cancel or isolate late output; fail or fallback | Conditionally retryable |
+| ERR-TIMEOUT-003 | Stream-idle timeout | Active stream exceeds inactivity bound | Finalize as failed or incomplete; reject late events | Conditionally retryable |
+| ERR-RUNTIME-001 | Runtime processing | Classification, retrieval, budgeting, or prompt construction fails | Apply safe degraded path where permitted; otherwise fail before dispatch | Depends on failed stage |
+| ERR-CONTEXT-001 | Context limit | Effective input exceeds model context bound | Reduce context deterministically or reject before provider submission | Retry after context or model change |
+| ERR-MEMORY-001 | Memory processing | Extraction, confirmation, index, retrieval, or deletion fails | Preserve source and valid prior state; isolate failed candidate or job | Conditionally retryable |
+| ERR-KNOWLEDGE-001 | Knowledge processing | Extraction, indexing, retrieval, or reconciliation fails | Prevent incomplete or stale knowledge from normal retrieval | Conditionally retryable |
+| ERR-FILE-001 | File validation | Unsupported, oversized, unsafe, or invalid file | Reject before unbounded parsing | Retry with valid file |
+| ERR-FILE-002 | File parsing | Supported file cannot be completely parsed | Mark failed or partial; do not expose incomplete content as complete | Conditionally retryable |
+| ERR-SEARCH-001 | Search | Vector, keyword, or hybrid search fails | Do not return unscoped or stale results; use approved fallback | Conditionally retryable |
+| ERR-STREAM-001 | Streaming | Stream connection, ordering, replay, or persistence fails | Preserve terminal state and mark partial content incomplete | Conditionally retryable |
+| ERR-STORAGE-001 | Storage | Durable write, read, or integrity validation fails | Do not report success; preserve recoverable operation state | Conditionally retryable |
+| ERR-BACKGROUND-001 | Background processing | Background job fails transiently | Record failure and schedule bounded retry | Retryable |
+| ERR-BACKGROUND-002 | Background terminal | Job exhausts retries or fails validation/permission | Dead-letter or reconcile; do not apply partial unauthorized effect | Non-retryable automatically |
+| ERR-NOTIFY-001 | Notification | Delivery channel fails | Record failure; retry only under bounded policy | Conditionally retryable |
+| ERR-EXPORT-001 | Export | Export validation, generation, integrity, or authorization fails | Do not mark ready; prevent download of invalid artifact | Conditionally retryable |
+| ERR-DELETION-001 | Deletion | One or more deletion stages fail | Keep resource inaccessible; enter reconciliation; do not report completion | Retryable through controlled reconciliation |
+| ERR-UNSUPPORTED-001 | Unsupported operation | Capability, provider, model, file type, or state is not supported | Reject without mutation | Retry only after supported selection |
+| ERR-INTERNAL-001 | Internal system | Unclassified internal failure | Return user-safe error and correlation identifier; protect internals | Determined operationally |
+
+---
+
+# 20. Requirement Priority Register
+
+## 20.1 Priority Assignment Rule
+
+Unless a requirement is explicitly classified below as **MVP Optional** or **Future**, every requirement containing **shall** or **shall not** is **MVP Required**. Requirements necessary to protect identity, workspace isolation, provider credentials, execution integrity, deletion, billing limits, or user-visible response delivery are **MVP Critical**.
+
+## 20.2 MVP Critical Requirements
+
+| Domain | Critical Range or Requirement |
+| --- | --- |
+| Authentication | FR-AUTH-001–008, FR-AUTH-010–012, FR-AUTH-014–022, FR-AUTH-024–027, FR-AUTH-029–033, FR-AUTH-035 |
+| Workspace | FR-WORKSPACE-003–006, FR-WORKSPACE-008–010, FR-WORKSPACE-013–030, FR-WORKSPACE-033–034 |
+| Conversation | FR-CONVERSATION-007, FR-CONVERSATION-012–014, FR-CONVERSATION-020–026, FR-CONVERSATION-027, FR-CONVERSATION-030 |
+| Message | FR-MSG-001–007, FR-MSG-009–018, FR-MSG-020–031, FR-MSG-034 |
+| Runtime | FR-RUNTIME-001–006, FR-RUNTIME-015, FR-RUNTIME-017–028, FR-RUNTIME-030, FR-RUNTIME-036–045 |
+| Memory | FR-MEMORY-001–002, FR-MEMORY-005–012, FR-MEMORY-015–026, FR-MEMORY-029, FR-MEMORY-034–041, FR-MEMORY-045 |
+| Provider | FR-PROVIDER-001–011, FR-PROVIDER-019–022, FR-PROVIDER-024–039 |
+| Streaming/File/Search | FR-STREAM-001–015, FR-STREAM-016, FR-STREAM-018–020, FR-STREAM-023–045, FR-STREAM-048, FR-STREAM-054, FR-STREAM-056–059 |
+| Administration | FR-ADMIN-001–010, FR-ADMIN-012–017, FR-ADMIN-020–024, FR-ADMIN-027–035, FR-ADMIN-037–045, FR-ADMIN-047–075 |
+| Knowledge | FR-KNOWLEDGE-001–010 |
+| Notification | FR-NOTIFY-001–002, FR-NOTIFY-004–008 |
+| Background | FR-BACKGROUND-001–012 |
+
+## 20.3 MVP Required Requirements
+
+All remaining mandatory requirements not classified as MVP Critical are **MVP Required**.
+
+## 20.4 MVP Optional Requirements
+
+The following requirements are **MVP Optional** because their statements use optional or recommended behaviour and their absence does not invalidate the central MVP hypothesis:
+
+* FR-AUTH-009;
+* FR-AUTH-013;
+* FR-AUTH-021;
+* FR-AUTH-023;
+* FR-AUTH-028;
+* FR-WORKSPACE-001–002 where organization functionality is not exposed in the personal-workspace MVP;
+* FR-WORKSPACE-012;
+* FR-WORKSPACE-016;
+* FR-CONVERSATION-008;
+* FR-CONVERSATION-017;
+* FR-MSG-008;
+* FR-MSG-019;
+* FR-MSG-032–033;
+* FR-RUNTIME-008;
+* FR-RUNTIME-012–014 where route eligibility does not require each route;
+* FR-RUNTIME-016;
+* FR-RUNTIME-031 where unknown-cost requests are otherwise blocked;
+* FR-MEMORY-003–004 category or scope extensions beyond the MVP-approved set;
+* FR-MEMORY-010;
+* FR-MEMORY-020 ranking signals beyond the approved minimum;
+* FR-MEMORY-024 alternate conflict behaviours;
+* FR-MEMORY-028 displayed optional metadata;
+* FR-MEMORY-030;
+* FR-MEMORY-042;
+* FR-PROVIDER-016;
+* FR-PROVIDER-023;
+* FR-STREAM-011;
+* FR-STREAM-022;
+* FR-STREAM-026 where OCR is not enabled;
+* FR-STREAM-039–045 only if vector search is formally deferred and keyword retrieval satisfies the approved MVP retrieval acceptance criteria;
+* FR-STREAM-046–055 ranking enhancements beyond the approved minimum;
+* FR-ADMIN-018–019 while multi-user workspaces remain deferred;
+* FR-ADMIN-021 period types beyond the approved MVP period;
+* FR-ADMIN-036;
+* FR-ADMIN-060 where no cooling-off period is adopted.
+
+## 20.5 Future Capabilities
+
+The following capabilities are not part of the locked MVP unless separately approved:
+
+* autonomous agent execution;
+* general-purpose tool orchestration;
+* third-party integration marketplace;
+* organization collaboration beyond the approved personal-workspace compatibility model;
+* file formats beyond the approved MVP set;
+* OCR unless separately approved;
+* provider-managed billing resale;
+* proprietary foundation-model training.
+
+---
+
+# 21. Document Change History
+
+| Version | Date | Author / Authority | Change |
+| --- | --- | --- | --- |
+| 0.1 | 2026-07-11 | Founder / Product Owner and documentation process | Initial baseline sections and requirement conventions drafted. |
+| 0.2 | 2026-07-11 | Founder / Product Owner and documentation process | FR-AUTH-001 through FR-ADMIN-075 consolidated. |
+| 0.3 | 2026-07-11 | FRS finalization review | Section numbering and contents reconciled; terminology rules clarified; requirement ranges verified; final governance registers added. |
+| 0.4 | 2026-07-11 | FRS finalization review | Knowledge, notification, and background-processing functional gaps closed through FR-KNOWLEDGE-001–010, FR-NOTIFY-001–008, and FR-BACKGROUND-001–012. |
+| 1.0-MVP | Pending approval | Founder / Product Owner | Reserved for approved and baseline-locked Functional Requirements Specification. |
+
+---
+
+# 22. Approval and Baseline Status
+
+## 22.1 Review Result
+
+The functional requirement registers have been reviewed for:
+
+* requirement-identifier continuity;
+* duplicate identifiers;
+* consolidated section numbering;
+* actor terminology;
+* workspace-scope consistency;
+* provider terminology;
+* state-transition consistency;
+* permission behaviour;
+* validation behaviour;
+* idempotency;
+* atomicity and reconciliation;
+* time handling;
+* audit behaviour;
+* error handling;
+* PRD capability coverage;
+* MVP acceptance coverage;
+* cross-domain dependencies.
+
+## 22.2 Finalization Result
+
+The finalization review found:
+
+1. No duplicate requirement identifiers within the original nine domains.
+2. No missing identifiers inside the stated original ranges.
+3. A mismatch between the original Contents and the actual consolidated section structure.
+4. An obsolete draft-status section before the requirement registers.
+5. Missing final acceptance, traceability, dependency, error, priority, history, and approval registers.
+6. Missing dedicated functional coverage for knowledge lifecycle, notification delivery, and background-job control.
+7. No basis for adding autonomous-agent or third-party-integration requirements to the MVP baseline.
+
+## 22.3 Current Status
+
+**Document 2 — Functional Requirements is complete but under review.**
+
+The document shall become **fully completed and baseline locked** only when:
+
+1. the Product Owner approves this finalization patch;
+2. the consolidated file is generated from the approved repository source;
+3. the resulting document is checked for Markdown integrity and exact requirement counts;
+4. the document version is set to `1.0-MVP`;
+5. the status is set to `Approved — Baseline Locked`;
+6. the approval record is completed;
+7. the approved file is committed to the repository.
+
+## 22.4 Approval Record
+
+| Approval Field | Status |
+| --- | --- |
+| Product Owner review | Pending |
+| Architecture review | Not required for FRS baseline approval; downstream review pending |
+| Security review | Downstream review pending |
+| QA review | Acceptance and traceability review pending |
+| Baseline decision | Pending Product Owner approval |
+| Implementation authorization | Not granted |
+| GitHub update | Not performed |
+
+## 22.5 Baseline Lock Statement
+
+After Product Owner approval, replace the document header status with:
+
+```markdown
+**Status:** Approved — Baseline Locked
+```
+
+and update Document Control as follows:
+
+```markdown
+| Approval status         | Approved — Baseline Locked                                                       |
+```
+
+No architecture, API, database, engine, security, UX, testing, deployment, or implementation artifact shall contradict the approved functional baseline.
